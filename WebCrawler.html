@@ -1,102 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body ng-app="myApp" ng-controller="customersCtrl">
 
-<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
-    <link href="css/agency.min.css" rel="stylesheet">
+<div>
 
-<style>
-body {
-    font-family: "Lato", sans-serif;
-}
+    <table>
+        <tr ng-repeat="x in articles">
+            <td>{{ x.articleText }}</td>
+            <td><a href="{{ x.articleUrl }}">{{ x.articleUrl }}</a></td>
+        </tr>
+    </table>
 
-.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #ffd40b;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-}
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #21252a;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidenav a:hover {
-    color: #21252a;
-}
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-</style>
-</head>
-<body>
-
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a href="#">Trending Topics</a>
-  <a href="#">About</a>
-  <a href="#">Team</a>
-  <a href="#">Contact</a>
-</div>
-
-<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
-
-<div class="w3-content w3-section">
-  <img class="mySlides" src="Web1.jpg" style="width:100%">
-  <img class="mySlides" src="Web2.jpg" style="width:100%">
-  <img class="mySlides" src="Web3.jpg" style="width:100%">
 </div>
 
 <script>
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-}
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+    $http.get("http://localhost:8080/cnn/content")
+    .then(function (response) {
+    console.log(response);
+    $scope.articles = response.data;});
+});
 
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-}
-
-var myIndex = 0;
-carousel();
-
-function carousel() {
-    var i;
-    var x = document.getElementsByClassName("mySlides");
-    for (i = 0; i < x.length; i++) {
-       x[i].style.display = "none";  
-    }
-    myIndex++;
-    if (myIndex > x.length) {myIndex = 1}    
-    x[myIndex-1].style.display = "block";  
-    setTimeout(carousel, 2000); // Change image every 2 seconds
-}
 </script>
-     
+
 </body>
-</html> 
+</html>
